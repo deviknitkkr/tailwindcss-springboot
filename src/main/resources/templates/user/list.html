@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{user.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="flex flex-wrap mb-6">
+                <h1 th:text="#{user.list.headline}" class="grow text-3xl md:text-4xl font-medium mb-2" />
+                <div>
+                    <a th:href="@{/users/add}" th:text="#{user.list.createNew}" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2" />
+                </div>
+            </div>
+            <div th:if="${users.empty}" th:text="#{user.list.empty}" />
+            <div th:if="${!users.empty}" class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th th:text="#{user.id.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{user.name.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{user.email.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{user.profilePic.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{user.userDepartment.label}" scope="col" class="text-left p-2" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-t-2 border-black">
+                        <tr th:each="user : ${users}" class="odd:bg-gray-100">
+                            <td th:text="${user.id}" class="p-2" />
+                            <td th:text="${user.name}" class="p-2" />
+                            <td th:text="${user.email}" class="p-2" />
+                            <td th:text="${user.profilePic}" class="p-2" />
+                            <td th:text="${user.userDepartment}" class="p-2" />
+                            <td class="p-2">
+                                <form th:action="@{/users/delete/{id}(id=${user.id})}" th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm float-right">
+                                    <a th:href="@{/users/edit/{id}(id=${user.id})}" th:text="#{user.list.edit}" class="inline-block text-white bg-sky-500 hover:bg-sky-600 focus:ring-sky-200focus:ring-3 rounded px-2.5 py-1.5 text-sm" />
+                                    <button th:text="#{user.list.delete}" type="submit" class="inline-block text-white bg-red-500 hover:bg-red-600 focus:ring-red-200focus:ring-3 rounded px-2.5 py-1.5 text-sm" />
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
